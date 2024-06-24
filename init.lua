@@ -114,9 +114,9 @@ vim.opt.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+-- vim.schedule(function()
+--   vim.opt.clipboard = 'unnamedplus'
+-- end)
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -355,6 +355,11 @@ require('lazy').setup({
         pickers = {
           find_files = {
             hidden = true,
+          },
+          live_grep = {
+            additional_args = function()
+              return { '--hidden' }
+            end,
           },
         },
         extensions = {
@@ -873,6 +878,17 @@ require('lazy').setup({
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
+  },
+
+  {
+    'stevearc/oil.nvim',
+    config = function()
+      require('oil').setup { keymaps = { ['<Esc>'] = 'actions.close' } }
+    end,
+    keys = {
+      { '=', '<cmd>Oil<cr>', mode = 'n', desc = 'Open Filesystem' },
+      { '-', '<cmd>Oil --float<cr>', mode = 'n', desc = 'Open Floating Filesystem' },
+    },
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
